@@ -386,12 +386,13 @@ function EditWidgetContent() {
                 </CardHeader>
                 <CardContent>
                   <div className="bg-gray-100 rounded-lg p-4 text-sm font-mono">
-                    {`<iframe 
-  src="${window.location.origin}/embed/${id}" 
-  width="400" 
-  height="${items.length * 80 + 40}"
-  >
-</iframe>`}
+                    {` <iframe
+                        src="${window.location.origin}/embed/${id}"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;"
+                        allowTransparency="true"
+                        scrolling="no">
+                    </iframe>`}
+
                   </div>
                 </CardContent>
               </Card>

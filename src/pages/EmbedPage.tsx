@@ -35,52 +35,63 @@ export default function EmbedPage() {
 
   if (loading) {
     return (
-      <div className="p-4 bg-slate-900 min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-      </div>
+        <div className="p-3 sm:p-4 md:p-6 bg-slate-900 min-h-screen flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-white"></div>
+            <p className="text-white/70 text-sm">Loading widget...</p>
+          </div>
+        </div>
     )
   }
 
   if (!widget) {
     return (
-      <div className="p-4 bg-slate-900 min-h-screen flex items-center justify-center">
-        <div className="text-foreground text-center">
-          <h1 className="text-2xl font-bold mb-2">Widget Not Found</h1>
-          <p>The requested widget could not be found.</p>
+        <div className="p-3 sm:p-4 md:p-6 bg-slate-900 min-h-screen flex items-center justify-center">
+          <div className="text-foreground text-center max-w-sm mx-auto">
+            <h1 className="text-xl sm:text-2xl font-bold mb-2">Widget Not Found</h1>
+            <p className="text-sm sm:text-base text-white/70">The requested widget could not be found.</p>
+          </div>
         </div>
-      </div>
     )
   }
 
   return (
-    <div className="p-4  min-h-screen">
-      <div className="space-y-4 max-w-md">
-        {widget.items.map((item) => (
-          <div key={item.id} className="flex items-center gap-4">
-            {item.image ? (
-                <img
-                    src={item.image}
-                    alt={item.label}
-                    className={`size-10 rounded-lg object-cover bg-${item.color}-500`}
-                />
-            ) : (
-                <div
-                    className={`size-10 bg-${item.color}-500 rounded-lg flex items-center justify-center text-lg`}
-                />
-            )}
-            <div className="flex-1 min-w-0">
-              <div className="text-foreground font-medium mb-2 truncate">{item.label}</div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div
-                  className={`bg-${item.color}-500 h-2 rounded-full transition-all duration-300`}
-                  style={{ width: `${item.percentage}%` }}
-                ></div>
-              </div>
-            </div>
-            <div className="text-foreground font-medium shrink-0">{item.percentage.toFixed(0)}%</div>
+      <div className="p-3 sm:p-4 md:p-6 bg-transparent min-h-screen">
+        <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
+          <div className="space-y-3 sm:space-y-4 md:space-y-5">
+            {widget.items.map((item) => (
+                <div key={item.id} className="bg-slate-800/50 rounded-lg p-3 sm:p-4 backdrop-blur-sm">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-foreground font-medium mb-2 text-sm sm:text-base leading-tight">
+                    <span className="block sm:hidden truncate" title={item.label}>
+                      {item.label.length > 25 ? `${item.label.substring(0, 25)}...` : item.label}
+                    </span>
+                        <span className="hidden sm:block truncate" title={item.label}>
+                      {item.label}
+                    </span>
+                      </div>
+                      <div className="w-full bg-gray-700 rounded-full h-2 sm:h-2.5">
+                        <div
+                            className={`bg-${item.color}-500 h-2 sm:h-2.5 rounded-full transition-all duration-500 ease-out`}
+                            style={{ width: `${item.percentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="text-foreground font-bold shrink-0 text-right sm:text-left">
+                      <span className="text-lg sm:text-xl">{item.percentage.toFixed(0)}</span>
+                      <span className="text-sm text-white/70">%</span>
+                    </div>
+                  </div>
+                </div>
+            ))}
           </div>
-        ))}
+
+          {/* Optional: Add a subtle footer for very small screens */}
+          <div className="mt-6 text-center">
+            <p className="text-xs text-white/40">Progress Widget • {widget.items.length} items</p>
+          </div>
+        </div>
       </div>
-    </div>
   )
 }
